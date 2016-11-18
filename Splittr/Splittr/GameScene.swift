@@ -14,12 +14,18 @@ import GameplayKit
     var isSplit = false
     var shapeCount:Int = 2
     var patternSpeed = TimeInterval(10)
+    var score = 0
+    var scoresRunning = false
 
 class GameScene: SKScene {
+
+    //Starts The Score
+    var scoresRunning = true
     
     //Declaring Nodes
     var Ball1 = SKSpriteNode()
     var Ball2 = SKSpriteNode()
+    var scoreLabel = SKLabelNode()
     var ShapePattern1 = SKSpriteNode()
     
     
@@ -27,6 +33,7 @@ class GameScene: SKScene {
         
         Ball1 = self.childNode(withName: "Ball1") as! SKSpriteNode
         Ball2 = self.childNode(withName: "Ball2") as! SKSpriteNode
+        scoreLabel = self.childNode(withName: "scoreLabel") as! SKLabelNode
         //2ShapePattern1 = self.childNode(withName: "ShapePattern1") as! SKSpriteNode
         
         
@@ -97,7 +104,20 @@ class GameScene: SKScene {
     
         
     }
-    
+    //Keeps Score
+    func keepScore() {
+        if scoresRunning == true {
+            
+            Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { timer in
+                score = score + 1
+                let scoreLabelText = "Score: " + String(score)
+                self.scoreLabel.text = scoreLabelText
+            }
+            
+        }else {
+            
+        }
+    }
     
     //Spawn Shapes
     func spawnShapePattern1() {
