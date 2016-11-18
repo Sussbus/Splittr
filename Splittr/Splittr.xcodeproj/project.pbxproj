@@ -17,6 +17,8 @@
 		933A8FFD1DDAC4E700C1BCB6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 933A8FFB1DDAC4E700C1BCB6 /* LaunchScreen.storyboard */; };
 		933A90081DDAC4E700C1BCB6 /* SplittrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933A90071DDAC4E700C1BCB6 /* SplittrTests.swift */; };
 		933A90131DDAC4E700C1BCB6 /* SplittrUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933A90121DDAC4E700C1BCB6 /* SplittrUITests.swift */; };
+		933A90211DDEA3DC00C1BCB6 /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 933A90201DDEA3DC00C1BCB6 /* MenuScene.sks */; };
+		933A90231DDEA3E800C1BCB6 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933A90221DDEA3E800C1BCB6 /* MenuScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +55,8 @@
 		933A900E1DDAC4E700C1BCB6 /* SplittrUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SplittrUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		933A90121DDAC4E700C1BCB6 /* SplittrUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplittrUITests.swift; sourceTree = "<group>"; };
 		933A90141DDAC4E700C1BCB6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		933A90201DDEA3DC00C1BCB6 /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
+		933A90221DDEA3E800C1BCB6 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +116,8 @@
 				933A8FF91DDAC4E700C1BCB6 /* Assets.xcassets */,
 				933A8FFB1DDAC4E700C1BCB6 /* LaunchScreen.storyboard */,
 				933A8FFE1DDAC4E700C1BCB6 /* Info.plist */,
+				933A90201DDEA3DC00C1BCB6 /* MenuScene.sks */,
+				933A90221DDEA3E800C1BCB6 /* MenuScene.swift */,
 			);
 			path = Splittr;
 			sourceTree = "<group>";
@@ -245,6 +251,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				933A8FF81DDAC4E700C1BCB6 /* Main.storyboard in Resources */,
+				933A90211DDEA3DC00C1BCB6 /* MenuScene.sks in Resources */,
 				933A8FEF1DDAC4E700C1BCB6 /* GameScene.sks in Resources */,
 				933A8FFA1DDAC4E700C1BCB6 /* Assets.xcassets in Resources */,
 				933A8FFD1DDAC4E700C1BCB6 /* LaunchScreen.storyboard in Resources */,
@@ -274,6 +281,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				933A8FF31DDAC4E700C1BCB6 /* GameScene.swift in Sources */,
+				933A90231DDEA3E800C1BCB6 /* MenuScene.swift in Sources */,
 				933A8FF51DDAC4E700C1BCB6 /* GameViewController.swift in Sources */,
 				933A8FED1DDAC4E700C1BCB6 /* AppDelegate.swift in Sources */,
 			);

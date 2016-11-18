@@ -22,6 +22,7 @@ class GameScene: SKScene {
     var Ball2 = SKSpriteNode()
     var ShapePattern1 = SKSpriteNode()
     
+    
     override func didMove(to view: SKView) {
         
         Ball1 = self.childNode(withName: "Ball1") as! SKSpriteNode
@@ -120,10 +121,21 @@ class GameScene: SKScene {
         sequence
     }
     
+    func spawnShapePattern3() {
+        splittingEnabled = true
+        let ShapePattern3 = SKSpriteNode(imageNamed: "ShapePattern3")
+        ShapePattern3.position = CGPoint(x: 0, y: 1334)
+        let moveShape = SKAction.moveTo(y: -2000, duration: patternSpeed)
+        let removeShape = SKAction.removeFromParent()
+        let sequence = ShapePattern3.run(SKAction.sequence([moveShape, removeShape]))
+        self.addChild(ShapePattern3)
+        sequence
+    }
+    
     //Chooses Random Pattern To Spawn
     func chooseShape() {
         
-        shapeCount = 2
+        shapeCount = 3
         let randNumber = Int(arc4random_uniform(UInt32(shapeCount)) + 1)
         print(randNumber)
         if randNumber == 1 {
@@ -132,7 +144,9 @@ class GameScene: SKScene {
         else if randNumber == 2 {
             spawnShapePattern2()
         }
-        
+        else if randNumber == 3 {
+            spawnShapePattern3()
+        }
     }
     
     //Centers the ball to the middle of the screen
