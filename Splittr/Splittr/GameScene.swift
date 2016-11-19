@@ -17,8 +17,9 @@ import GameplayKit
     var score = 0
     var scoresRunning = false
 
-class GameScene: SKScene {
 
+class GameScene: SKScene {
+    
     //Starts The Score
     var scoresRunning = true
     
@@ -27,8 +28,16 @@ class GameScene: SKScene {
     var Ball2 = SKSpriteNode()
     var scoreLabel = SKLabelNode()
     var ShapePattern1 = SKSpriteNode()
-    
-    
+
+    //Timer
+    func keepScore() {
+    Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+    score = score + 1
+    let scoreLabelText = "Score: " + String(score)
+    self.scoreLabel.text = scoreLabelText
+    print(score)
+        }
+    }
     override func didMove(to view: SKView) {
         
         Ball1 = self.childNode(withName: "Ball1") as! SKSpriteNode
@@ -43,13 +52,18 @@ class GameScene: SKScene {
         let spawnShapes = SKAction.run({
             () in
             self.chooseShape()
+            
         })
         
         var spawnAndDelay = SKAction.sequence([spawnShapes, delay])
         spawnAndDelay = SKAction.repeatForever(spawnAndDelay)
         self.run(spawnAndDelay)
-        
-
+        let keepScore = SKAction.run({
+            () in
+            self.keepScore()
+            
+        })
+        self.run(keepScore)
     }
     
     
@@ -104,20 +118,8 @@ class GameScene: SKScene {
     
         
     }
-    //Keeps Score
-    func keepScore() {
-        if scoresRunning == true {
-            
-            Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { timer in
-                score = score + 1
-                let scoreLabelText = "Score: " + String(score)
-                self.scoreLabel.text = scoreLabelText
-            }
-            
-        }else {
-            
-        }
-    }
+
+
     
     //Spawn Shapes
     func spawnShapePattern1() {
