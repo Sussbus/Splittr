@@ -19,6 +19,9 @@
 		933A90131DDAC4E700C1BCB6 /* SplittrUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933A90121DDAC4E700C1BCB6 /* SplittrUITests.swift */; };
 		933A90211DDEA3DC00C1BCB6 /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 933A90201DDEA3DC00C1BCB6 /* MenuScene.sks */; };
 		933A90231DDEA3E800C1BCB6 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933A90221DDEA3E800C1BCB6 /* MenuScene.swift */; };
+		EBD848371DE2BD11003BD7F3 /* Trail.scnp in Resources */ = {isa = PBXBuildFile; fileRef = EBD848351DE2BD11003BD7F3 /* Trail.scnp */; };
+		EBD848381DE2BD11003BD7F3 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = EBD848361DE2BD11003BD7F3 /* spark.png */; };
+		EBD8483A1DE2C1AB003BD7F3 /* CornerParticles.sks in Resources */ = {isa = PBXBuildFile; fileRef = EBD848391DE2C1AB003BD7F3 /* CornerParticles.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +60,9 @@
 		933A90141DDAC4E700C1BCB6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		933A90201DDEA3DC00C1BCB6 /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		933A90221DDEA3E800C1BCB6 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
+		EBD848351DE2BD11003BD7F3 /* Trail.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = Trail.scnp; sourceTree = "<group>"; };
+		EBD848361DE2BD11003BD7F3 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
+		EBD848391DE2C1AB003BD7F3 /* CornerParticles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = CornerParticles.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +124,9 @@
 				933A8FFE1DDAC4E700C1BCB6 /* Info.plist */,
 				933A90201DDEA3DC00C1BCB6 /* MenuScene.sks */,
 				933A90221DDEA3E800C1BCB6 /* MenuScene.swift */,
+				EBD848351DE2BD11003BD7F3 /* Trail.scnp */,
+				EBD848361DE2BD11003BD7F3 /* spark.png */,
+				EBD848391DE2C1AB003BD7F3 /* CornerParticles.sks */,
 			);
 			path = Splittr;
 			sourceTree = "<group>";
@@ -208,7 +217,7 @@
 				TargetAttributes = {
 					933A8FE81DDAC4E600C1BCB6 = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = 5TT696BY5W;
+						DevelopmentTeam = LR7DCMSEBD;
 						ProvisioningStyle = Automatic;
 					};
 					933A90021DDAC4E700C1BCB6 = {
@@ -252,8 +261,11 @@
 			files = (
 				933A8FF81DDAC4E700C1BCB6 /* Main.storyboard in Resources */,
 				933A90211DDEA3DC00C1BCB6 /* MenuScene.sks in Resources */,
+				EBD848371DE2BD11003BD7F3 /* Trail.scnp in Resources */,
 				933A8FEF1DDAC4E700C1BCB6 /* GameScene.sks in Resources */,
+				EBD8483A1DE2C1AB003BD7F3 /* CornerParticles.sks in Resources */,
 				933A8FFA1DDAC4E700C1BCB6 /* Assets.xcassets in Resources */,
+				EBD848381DE2BD11003BD7F3 /* spark.png in Resources */,
 				933A8FFD1DDAC4E700C1BCB6 /* LaunchScreen.storyboard in Resources */,
 				933A8FF11DDAC4E700C1BCB6 /* Actions.sks in Resources */,
 			);
@@ -359,7 +371,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Thomas Quinn (8Z974Y88R6)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -409,7 +422,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Thomas Quinn (8Z974Y88R6)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -435,10 +449,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 5TT696BY5W;
+				DEVELOPMENT_TEAM = LR7DCMSEBD;
 				INFOPLIST_FILE = Splittr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.JacobSussman.Splittr;
+				PRODUCT_BUNDLE_IDENTIFIER = com.BitByBite.SplittrGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -448,10 +462,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 5TT696BY5W;
+				DEVELOPMENT_TEAM = LR7DCMSEBD;
 				INFOPLIST_FILE = Splittr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.JacobSussman.Splittr;
+				PRODUCT_BUNDLE_IDENTIFIER = com.BitByBite.SplittrGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -534,6 +548,7 @@
 				933A90191DDAC4E700C1BCB6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		933A901A1DDAC4E700C1BCB6 /* Build configuration list for PBXNativeTarget "SplittrTests" */ = {
 			isa = XCConfigurationList;
@@ -542,6 +557,7 @@
 				933A901C1DDAC4E700C1BCB6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		933A901D1DDAC4E700C1BCB6 /* Build configuration list for PBXNativeTarget "SplittrUITests" */ = {
 			isa = XCConfigurationList;
@@ -550,6 +566,7 @@
 				933A901F1DDAC4E700C1BCB6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
