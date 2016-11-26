@@ -8,21 +8,33 @@
 
 import SpriteKit
 import GameplayKit
-//Creating Physics
 
-    //Variables
-    var splittingEnabled = true
-    var isSplit = false
-    var shapeCount:Int = 2
-    var patternSpeed = TimeInterval(10)
-    var score = 0
-    var scoresRunning = false
+//Constants
 
+// TODO: Dynamically calculate based on screen size
+let SPLIT_MULTIPLIER = 50
+let SPLIT_MAX = 500
+let PATTERN_PROPERTIES = [
+    [
+        "splittingEnabled": true
+    ],
+    [
+        "splittingEnabled": false
+    ],
+    [
+        "splittingEnabled": true
+    ]
+]
 
-class GameScene: SKScene, SKPhysicsContactDelegate{
-    
-    let BallCategory: UInt32 = 0x1 << 0
-    let ShapePatternCategory: UInt32 = 0x1 << 1
+//Variables
+var splittingEnabled = true
+var isSplit = false
+var shapeCount:Int = 2
+var score = 0
+var scoresRunning = false
+var patternSpeed = 10
+
+class GameScene: SKScene, SKPhysicsContactDelegate {
 
     //Starts The Score
     var scoresRunning = true
@@ -31,38 +43,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     var Ball1 = SKSpriteNode()
     var Ball2 = SKSpriteNode()
     var scoreLabel = SKLabelNode()
-    var ShapePattern1 = SKSpriteNode()
     var conerParticles = SKEffectNode()
     
     //Timer
     func keepScore() {
-    Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-    score = score + 1
-    let scoreLabelText = "Score: " + String(score)
-    self.scoreLabel.text = scoreLabelText
-    //print(score)
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+            score += 1
+            self.scoreLabel.text = "Score: \(score)"
+            //print(score)
         }
     }
+    
     override func didMove(to view: SKView) {
-        
         
         //Setting Up Physics
         physicsWorld.contactDelegate = self
         
         //Naming Sprites
         Ball1 = self.childNode(withName: "Ball1") as! SKSpriteNode
-        Ball1.physicsBody = SKPhysicsBody(circleOfRadius: 25)
-        Ball1.physicsBody?.isDynamic = false
-        Ball1.physicsBody?.affectedByGravity = false
-        Ball1.physicsBody?.categoryBitMask = BallCategory
-        Ball1.physicsBody?.collisionBitMask = 0
         Ball1.name = "Ball1"
         Ball2 = self.childNode(withName: "Ball2") as! SKSpriteNode
-        Ball2.physicsBody = SKPhysicsBody(circleOfRadius: 25)
-        Ball2.physicsBody?.isDynamic = false
-        Ball2.physicsBody?.affectedByGravity = false
-        Ball2.physicsBody?.categoryBitMask = BallCategory
-        Ball2.physicsBody?.collisionBitMask = 0
         scoreLabel = self.childNode(withName: "scoreLabel") as! SKLabelNode
         //2ShapePattern1 = self.childNode(withName: "ShapePattern1") as! SKSpriteNode
         
@@ -94,25 +94,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 
-            
-        
     }
 
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
         for touch in touches {
             //splittingEnabled = true
             let touchForce = touch.force
             let location = touch.location(in: self)
-            var splitDistance = Int(touchForce * 50)
+            var splitDistance = Int(touchForce * SPLIT_MULTIPLIER)
             
             
             if splitDistance < 0 {
                 splitDistance = 0
             }
-            if splitDistance > 500 {
-                splitDistance = 500
+        
+            if splitDistance > SPLIT_MAX {
+                splitDistance = SPLIT_MAX
             }
             
             if splittingEnabled == true {
@@ -135,97 +133,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
                 Ball2.run(SKAction.moveTo(x: (CGFloat)(slidePosition), duration: 0.15))
             }
             //print(splitDistance)
-            
         }
-        
-    
-        
-    }
-
-
-    
-    //Spawn Shapes
-    func spawnShapePattern1() -> SKSpriteNode {
-        splittingEnabled = true
-        let ShapePattern1 = SKSpriteNode(imageNamed: "ShapePattern1")
-        //Physics Attributes
-        ShapePattern1.physicsBody = SKPhysicsBody(rectangleOf: ShapePattern1.size)
-        ShapePattern1.physicsBody?.isDynamic = false
-        ShapePattern1.physicsBody?.affectedByGravity = false
-        ShapePattern1.name = "shapePattern1"
-        ShapePattern1.physicsBody?.categoryBitMask = ShapePatternCategory
-        ShapePattern1.physicsBody?.usesPreciseCollisionDetection = true
-        ShapePattern1.physicsBody?.contactTestBitMask = BallCategory
-        ShapePattern1.physicsBody?.collisionBitMask = 1
-        
-        ShapePattern1.position = CGPoint(x: 0, y: 1334)
-        let moveShape = SKAction.moveTo(y: -2000, duration: patternSpeed)
-        let removeShape = SKAction.removeFromParent()
-        let sequence = ShapePattern1.run(SKAction.sequence([moveShape, removeShape]))
-        self.addChild(ShapePattern1)
-        sequence
-        return ShapePattern1
-    }
-    
-    func spawnShapePattern2() -> SKSpriteNode {
-        splittingEnabled = false
-        let ShapePattern2 = SKSpriteNode(imageNamed: "ShapePattern2")
-        //Physics Attributes
-        ShapePattern2.physicsBody = SKPhysicsBody(rectangleOf: ShapePattern2.size)
-        ShapePattern2.physicsBody?.isDynamic = false
-        ShapePattern2.physicsBody?.affectedByGravity = false
-        ShapePattern2.name = "shapePattern2"
-        ShapePattern2.physicsBody?.categoryBitMask = ShapePatternCategory
-        ShapePattern2.physicsBody?.usesPreciseCollisionDetection = true
-        ShapePattern2.physicsBody?.contactTestBitMask = BallCategory
-        ShapePattern2.physicsBody?.collisionBitMask = 1
-        
-        ShapePattern2.position = CGPoint(x: 0, y: 1334)
-        let moveShape = SKAction.moveTo(y: -2000, duration: patternSpeed)
-        let removeShape = SKAction.removeFromParent()
-        let sequence = ShapePattern2.run(SKAction.sequence([moveShape, removeShape]))
-        self.addChild(ShapePattern2)
-        sequence
-        return ShapePattern2
-    }
-    
-    func spawnShapePattern3() -> SKSpriteNode {
-        splittingEnabled = true
-        let ShapePattern3 = SKSpriteNode(imageNamed: "ShapePattern3")
-        //Physics Attributes
-        ShapePattern3.physicsBody = SKPhysicsBody(rectangleOf: ShapePattern3.size)
-        ShapePattern3.physicsBody?.isDynamic = false
-        ShapePattern3.physicsBody?.affectedByGravity = false
-        ShapePattern3.name = "shapePattern3"
-        ShapePattern3.physicsBody?.categoryBitMask = ShapePatternCategory
-        ShapePattern3.physicsBody?.usesPreciseCollisionDetection = true
-        ShapePattern3.physicsBody?.contactTestBitMask = BallCategory
-        ShapePattern3.physicsBody?.collisionBitMask = 1
-        
-        ShapePattern3.position = CGPoint(x: 0, y: 1334)
-        let moveShape = SKAction.moveTo(y: -2000, duration: patternSpeed)
-        let removeShape = SKAction.removeFromParent()
-        let sequence = ShapePattern3.run(SKAction.sequence([moveShape, removeShape]))
-        self.addChild(ShapePattern3)
-        sequence
-        return ShapePattern3
     }
     
     //Chooses Random Pattern To Spawn
     func chooseShape() {
-        
-        shapeCount = 3
-        let randNumber = Int(arc4random_uniform(UInt32(shapeCount)) + 1)
-        //print(randNumber)
-        if randNumber == 1 {
-            spawnShapePattern1()
-        }
-        else if randNumber == 2 {
-            spawnShapePattern2()
-        }
-        else if randNumber == 3 {
-            spawnShapePattern3()
-        }
+        let randNumber = Int(arc4random_uniform(UInt32(PATTERN_PROPERTIES.count)))
+        spawnShape(patternNumber: randNumber)
+    }
+    
+    //Spawns a shape based on its pattern number
+    func spawnShape(patternNumber: Int) {
+        splittingEnabled = PATTERN_PROPERTIES[patternNumber]["splittingEnabled"]!
+        let shapePattern = SKSpriteNode(imageNamed: "ShapePattern\(patternNumber)")
+        shapePattern.name = "shapePattern\(patternNumber)"
+        shapePattern.position = CGPoint(x: 0, y: shapePattern.size.height)
+        let moveShape = SKAction.moveTo(y: -2000, duration: TimeInterval(patternSpeed))
+        let removeShape = SKAction.removeFromParent()
+        shapePattern.run(SKAction.sequence([moveShape, removeShape]))
+        self.addChild(shapePattern)
     }
     
     //Centers the ball to the middle of the screen
@@ -244,26 +170,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-            centerBalls()
-        
+        centerBalls()
     }
     
     
     override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
+    // Called before each frame is rendered
 
-        }
-
-
-    func didBegin(_ contact: SKPhysicsContact) {
-        
-        if contact.bodyA.node?.name == "Ball1" {
-            print("hit")
-        }
-        if contact.bodyA.node?.name == "ShapePattern1" {
-            print("hit")
-        }
     }
+
     
 }
 
