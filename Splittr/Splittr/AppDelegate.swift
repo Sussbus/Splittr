@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  Splittr
 //
-//  Created by Jocelyn Sussman on 11/14/16.
+//  Created by Jacob Sussman on 11/14/16.
 //  Copyright © 2016 Jacob Sussman. All rights reserved.
 //
 

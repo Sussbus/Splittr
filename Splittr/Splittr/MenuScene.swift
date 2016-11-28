@@ -2,7 +2,7 @@
 //  GameScene.swift
 //  BlockDodge
 //
-//  Created by Luke Rose on 11/10/16.
+//  Created by Jacob Sussman on 11/10/16.
 //  Copyright © 2016 Luke Rose. All rights reserved.
 //
 

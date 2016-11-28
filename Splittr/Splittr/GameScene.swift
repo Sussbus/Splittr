@@ -2,12 +2,13 @@
 //  GameScene.swift
 //  Splittr
 //
-//  Created by Jocelyn Sussman on 11/14/16.
+//  Created by Jacob Sussman on 11/14/16.
 //  Copyright © 2016 Jacob Sussman. All rights reserved.
 //
 
 import SpriteKit
 import GameplayKit
+
 
 //Constants
 
@@ -32,6 +33,7 @@ var splittingEnabled = true
 var isSplit = false
 var score = 0
 var patternSpeed = 10
+var isPaused = false
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
 
@@ -40,6 +42,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var Ball2 = SKSpriteNode()
     var scoreLabel = SKLabelNode()
     var conerParticles = SKEffectNode()
+    var scoreBackground = SKSpriteNode()
+    var pauseBackground = SKSpriteNode()
+    var pauseButton = SKSpriteNode()
+    var unpauseButton = SKSpriteNode()
+    //var unpauseButton = SKSpriteNode()
     
     //Timer
     func keepScore() {
@@ -54,9 +61,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Setting Up Physics
         physicsWorld.contactDelegate = self
         
+        //Score Background Node
+        //scoreBackground = self.childNode(withName: "scoreBackground") as! SKSpriteNode
+        scoreBackground.texture = SKTexture(imageNamed: "scoreBackground")
+
+        //Ball Nodes
         Ball1 = self.childNode(withName: "Ball1") as! SKSpriteNode
         Ball2 = self.childNode(withName: "Ball2") as! SKSpriteNode
         scoreLabel = self.childNode(withName: "scoreLabel") as! SKLabelNode
+        //Score Background
+        scoreBackground = self.childNode(withName: "scoreBackground") as! SKSpriteNode
+        //Pause Button
+        pauseBackground = self.childNode(withName: "pauseBackground") as! SKSpriteNode
+        pauseButton = self.childNode(withName: "pauseButton") as! SKSpriteNode
+        pauseButton.zPosition = 2
+        //unpauseButton = self.childNode(withName: "pauseButtonBackground") as! SKSpriteNode
         
         //Corner Particles
         if let particles = SKEmitterNode(fileNamed: "Trail") {
@@ -78,6 +97,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.keepScore()
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+        let location = touch.location(in: self)
+            if pauseBackground.contains(location) {
+                checkIfPaused()
+            }
+        }
+    }
+    func checkIfPaused() {
+        if isPaused == false {
+            pauseButton.texture = SKTexture(imageNamed: "unpauseButton")
+            isPaused = true
+        } else if isPaused == true {
+            pauseButton.texture = SKTexture(imageNamed: "pauseButton")
+            isPaused = false
+        }
+        
+        
+    }
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             //splittingEnabled = true
@@ -113,6 +151,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let shapePattern = SKSpriteNode(imageNamed: "ShapePattern\(patternNumber)")
         shapePattern.name = "shapePattern\(patternNumber)"
         shapePattern.position = CGPoint(x: 0, y: shapePattern.size.height)
+        
+        //shapePattern.physicsBody = SKPhysicsBody(texture: (shapePattern.texture!), alphaThreshold: 0.9, size: CGSize(width: shapePattern.size.width, height: shapePattern.size.height))
+        
         let moveShape = SKAction.moveTo(y: -2000, duration: TimeInterval(patternSpeed))
         let removeShape = SKAction.removeFromParent()
         shapePattern.run(SKAction.sequence([moveShape, removeShape]))
@@ -137,8 +178,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     override func update(_ currentTime: TimeInterval) {
-    // Called before each frame is rendered
-
+    
+    scoreBackground.size.width = scoreLabel.frame.width + 40
+    
+        //Causes Scene To Pause, But Score Doesn't Stop Counting
+        if isPaused == true {
+            self.scene?.view?.isPaused = true
+        } else {
+            self.scene?.view?.isPaused = false
+        }
+        
     }
 
     
