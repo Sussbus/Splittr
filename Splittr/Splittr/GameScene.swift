@@ -8,44 +8,48 @@
 
 import SpriteKit
 import GameplayKit
-
-//Constants
-
-// TODO: Dynamically calculate based on screen size
-let SPLIT_MULTIPLIER = 50
-let SPLIT_MAX = 500
-let PATTERN_DELAY = 7
-let PATTERN_PROPERTIES = [
-    [
-        "splittingEnabled": true
-    ],
-    [
-        "splittingEnabled": false
-    ],
-    [
-        "splittingEnabled": true
-    ]
-]
-
-//Variables
-var splittingEnabled = true
-var isSplit = false
-var score = 0
-var patternSpeed = 10
+import EasyImagy
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-
+    
+    //Constants
+    
+    // TODO: Dynamically calculate based on screen size
+    let SPLIT_MULTIPLIER = 50
+    let SPLIT_MAX = 500
+    let PATTERN_DELAY = 7
+    let PATTERN_PROPERTIES = [
+        [
+            "splittingEnabled": true
+        ],
+        [
+            "splittingEnabled": false
+        ],
+        [
+            "splittingEnabled": true
+        ]
+    ]
+    
+    //Variables
+    var splittingEnabled = true
+    var isSplit = false
+    var score = 0
+    var patternSpeed = 10
+    
     //Declaring Nodes
-    var Ball1 = SKSpriteNode()
-    var Ball2 = SKSpriteNode()
+    var ball1 = SKSpriteNode()
+    var ball2 = SKSpriteNode()
     var scoreLabel = SKLabelNode()
     var conerParticles = SKEffectNode()
+    
+    var shapePattern = SKSpriteNode();
+    var pixelValues: Image<RGBA>?;
     
     //Timer
     func keepScore() {
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-            score += 1
-            self.scoreLabel.text = "Score: \(score)"
+            self.score += 1
+            self.scoreLabel.text = "Score: \(self.score)"
         }
     }
     
@@ -54,8 +58,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Setting Up Physics
         physicsWorld.contactDelegate = self
         
-        Ball1 = self.childNode(withName: "Ball1") as! SKSpriteNode
-        Ball2 = self.childNode(withName: "Ball2") as! SKSpriteNode
+        ball1 = self.childNode(withName: "Ball1") as! SKSpriteNode
+        ball2 = self.childNode(withName: "Ball2") as! SKSpriteNode
         scoreLabel = self.childNode(withName: "scoreLabel") as! SKLabelNode
         
         //Corner Particles
@@ -86,17 +90,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let splitDistance = min(max(Int(touchForce * CGFloat(SPLIT_MULTIPLIER)), 0), SPLIT_MAX)
             
             if splittingEnabled {
-                Ball1.run(SKAction.moveTo(x: -(CGFloat)(splitDistance), duration: 0.2))
-                Ball2.run(SKAction.moveTo(x: CGFloat(splitDistance), duration: 0.2))
+                ball1.run(SKAction.moveTo(x: -(CGFloat)(splitDistance), duration: 0.2))
+                ball2.run(SKAction.moveTo(x: CGFloat(splitDistance), duration: 0.2))
             }
             
             //Checks if balls are split
-            isSplit = Ball1.position.x < 0 && splittingEnabled
+            isSplit = ball1.position.x < 0 && splittingEnabled
             
             //Moves Ball from right to left if not split
             if !splittingEnabled {
-                Ball1.run(SKAction.moveTo(x: (CGFloat)(location.x), duration: 0.15))
-                Ball2.run(SKAction.moveTo(x: (CGFloat)(location.x), duration: 0.15))
+                ball1.run(SKAction.moveTo(x: (CGFloat)(location.x), duration: 0.15))
+                ball2.run(SKAction.moveTo(x: (CGFloat)(location.x), duration: 0.15))
             }
         }
     }
@@ -110,20 +114,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Spawns a pattern based on its pattern number
     func spawnPattern(patternNumber: Int) {
         splittingEnabled = PATTERN_PROPERTIES[patternNumber]["splittingEnabled"]!
-        let shapePattern = SKSpriteNode(imageNamed: "ShapePattern\(patternNumber)")
+        shapePattern = SKSpriteNode(imageNamed: "ShapePattern\(patternNumber)")
         shapePattern.name = "shapePattern\(patternNumber)"
         shapePattern.position = CGPoint(x: 0, y: shapePattern.size.height)
         let moveShape = SKAction.moveTo(y: -2000, duration: TimeInterval(patternSpeed))
         let removeShape = SKAction.removeFromParent()
         shapePattern.run(SKAction.sequence([moveShape, removeShape]))
         self.addChild(shapePattern)
+        
+        let patternImage = shapePattern.texture?.cgImage()
+        pixelValues = Image<RGBA>(cgImage: patternImage!)
     }
     
     //Centers the ball to the middle of the screen
     func centerBalls() {
-        if Ball1.position.x < 0 || Ball2.position.x > 0 {
-            Ball1.run(SKAction.moveTo(x: 0, duration: 0.2))
-            Ball2.run(SKAction.moveTo(x: 0, duration: 0.2))
+        if ball1.position.x < 0 || ball2.position.x > 0 {
+            ball1.run(SKAction.moveTo(x: 0, duration: 0.2))
+            ball2.run(SKAction.moveTo(x: 0, duration: 0.2))
         }
     }
     
@@ -137,10 +144,56 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     override func update(_ currentTime: TimeInterval) {
-    // Called before each frame is rendered
-
+        //print(ball1.position)
+        checkCollisions(ball: ball1)
+        //checkCollisions(ball: ball2)
     }
 
+    func checkCollisions(ball: SKSpriteNode) {
+        
+        let posX = Int(ball.position.x)
+        let posY = Int(ball.position.y)
+        
+        // Loop around each point of the ball
+        var x = posX
+        var y = posY + Int(ball.size.height / 2)
+        
+        var xMult = 1
+        var yMult = -1
+        
+        while (true) {
+            // these are the coordinates of each point of the ball
+            
+            x = x + xMult
+            y = y + yMult
+            
+            //we need to convert the coordinates to the coordinates of the background pattern array
+            //not yet finished
+            let imageX = ((view?.bounds.height)! / 2 + CGFloat(x))*2
+            let imageY = ((view?.bounds.height)! / 2 + CGFloat(y))*2
+            
+            //print(view?.bounds.height)
+            //print("\(imageX), \(imageY)")
+            if let pixel = pixelValues?.pixel(Int(imageX), Int(imageY)) {
+                //print(pixel)
+            }
+            
+            if (y == posY && x == posX + Int(ball.size.width / 2)) {
+                xMult = -1
+                yMult = -1
+            } else if(x == posX && y == posY - Int(ball.size.height / 2)) {
+                xMult = -1
+                yMult = 1
+            } else if(y == posY && x == posX - Int(ball.size.width / 2)) {
+                xMult = 1
+                yMult = 1
+            }
+            
+            if (x == posX && y >= posY + Int(ball.size.height / 2)) {
+                break
+            }
+        }
+    }
     
 }
 
