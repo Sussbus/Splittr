@@ -52,7 +52,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func keepScore() {
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
             score += 1
-            self.scoreLabel.text = "Score: \(score)"
+            self.scoreLabel.text = String(score)
         }
     }
     
@@ -180,7 +180,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
     
     scoreBackground.size.width = scoreLabel.frame.width + 40
-    
+        if scoreBackground.size.width < 75 {
+            scoreBackground.size.width = 75
+        }
+        let scoreLabelPos = scoreBackground.size.width / 4
+        scoreLabel.position.x = scoreBackground.position.x        
         //Causes Scene To Pause, But Score Doesn't Stop Counting
         if isPaused == true {
             self.scene?.view?.isPaused = true
